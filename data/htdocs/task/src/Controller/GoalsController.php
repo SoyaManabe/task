@@ -54,8 +54,12 @@ class GoalsController extends AppController
 
 	public function delete($id)
 	{
-		$this->request->allowMethod(['poat', 'delete']);
+		$this->request->allowMethod(['post', 'delete']);
 
-		$goal = $this
+		$goal = $this->Goals->findById($id)->firstOrFail();
+		if ($this->Goals->delete($goal)) {
+			$this->Flash->success(__('{0} has been deleted.', $goal->goal));
+			return $this->redirect(['action' => 'index']);
+		}
 	}
 }

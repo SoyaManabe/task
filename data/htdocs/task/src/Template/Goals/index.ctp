@@ -7,6 +7,10 @@
 <p>
 <?= $this->Html->link('Edit', ['action' => 'edit', $goal->id]) ?>
 </p>
+<p>
+<?= $this->Form->postLink('Delete', ['action' => 'delete', $goal->id],
+	['confirm' => 'Are you ok to delete?']) ?>
+</P>
 <?php endforeach; ?>
 
 <?= $this->Html->link('Add Goal', ['action' => 'add']) ?>
