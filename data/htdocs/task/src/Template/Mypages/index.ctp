@@ -16,7 +16,9 @@
 <?= $goal->goal ?>
 </h3>
 <?php endforeach; ?>
-
+<h3>
+<?= $this->Html->link('Goals', ['controller' => 'Goals', 'action' => 'index']); ?>
+</h3>
 <h3>
 <?= $this->Html->link('Go to your bookshelf', ['controller' => 'Books', 'action' => 'index']); ?>
 </h3>

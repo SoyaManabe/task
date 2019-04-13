@@ -38,25 +38,40 @@ role
 createddate
 modified date
 
-Profiles
-id
-user_id
-profession
-message
+mysql> CREATE TABLE profiles (
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> user_id INT UNSIGNED,
+    -> profession VARCHAR(50),
+    -> message VARCHAR(200),
+    -> created DATETIME,
+    -> modified DATETIME,
+    -> FOREIGN KEY user_key (user_id) REFERENCES users(id)
+    -> ) CHARSET=utf8mb4;
 
-Goals
-id
-user_id
-goal
 
-Books
-id
-asbn
+mysql> CREATE TABLE goals ( 
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> user_id INT UNSIGNED,
+    -> goal VARCHAR(100),
+    -> created DATETIME,
+    -> modified DATETIME,
+    -> FOREIGN KEY user_key (user_id) REFERENCES users(id)
+    -> ) CHARSET=utf8mb4;
 
-Results
-id
-user_id
-book_id
-startdate
-finishdate
+mysql> CREATE TABLE books (
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> user_id INT UNSIGNED,
+    -> isbn INT(13),
+    -> FOREIGN KEY user_key (user_id) REFERENCES users(id)
+    -> );
 
+mysql> CREATE TABLE results (
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> user_id INT UNSIGNED,
+    -> book_id INT,
+    -> comments VARCHAR(100),
+    -> created DATETIME,
+    -> finished DATETIME,
+    -> FOREIGN KEY user_key (user_id) REFERENCES users(id),
+    -> FOREIGN KEY book_key (book_id) REFERENCES books(id)
+    -> ) CHARSET=utf8mb4;
