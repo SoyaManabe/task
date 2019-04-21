@@ -14,10 +14,28 @@ class ProfilesController extends AppController
 		$this->loadComponent('Paginator');
 		$this->loadComponent('Flash');
 	}
+
+	public function add()
+	{
+		$profile = $this->Profiles->newEntity();
+		$userId = $this->Auth->user('id');
+		if ($this->request->is('post')) {
+			$profile = $this->Profiles->patchEntity($profile, $this->request->getData());
+			if ($this->Profiles->save($profile)) {
+				$this->Flash->success(__('Your new profile has been saved.'));
+				return $this->redirect(['controller' => 'mypages', 'action' => 'index']);
+			}
+			$this->Flash->error(__('Unable to add your profile.'));
+		}
+		$this->set('userId', $userId);
+		$this->set('profile', $profile);
+	}
 	
-	public function edit($id)
+	public function edit($userId)
 		{
-		$profile = $this->Profiles->findById($id)->firstOrFail();
+		$profile = $this->Profiles->find()
+			->where(['user_id' => $userId])
+			->firstOrFail();
 		if ($this->request->is(['post', 'put'])) {
 			$this->Profiles->patchEntity($profile, $this->request->getData());
 			if ($this->Profiles->save($profile)) {

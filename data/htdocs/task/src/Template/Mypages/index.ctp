@@ -1,9 +1,9 @@
 <h1>My Page</h1>
 <hr>
-<h2>Profile</h2>
+<?php if (isset($profile)): ?>
+<h2><?= $this->Html->link('Profile', ['controller' => 'Profiles', 'action' => 'edit', $userId]) ?></h2>
 <h3>Manabe Soya</h3>
 <table>
-<?php foreach ($profiles as $profile): ?>
 <tr>
     <td>
 	<b>PROFESSION</b>
@@ -20,14 +20,12 @@
 		<?= $profile->message ?>
 	</td>
 </tr>
-<tr>
-	<td>
-		<?= $this->Html->link('Edit', ['controller' => 'Profiles', 'action' => 'edit', $profile->id]) ?>
-	</td>
-</tr>
-<?php endforeach; ?>
 </table>
-<hr>
+<?php else: ?>
+<h2>Profile</h2>
+<p>You don't have profile yet.</p>
+<p><?= $this->Html->link('Create', ['controller' => 'Profiles', 'action' => 'add', $userId]) ?></p>
+<?php endif; ?>
 <h2>
 <?= $this->Html->link('My Goals', ['controller' => 'Goals', 'action' => 'index']) ?>
 </h2>
