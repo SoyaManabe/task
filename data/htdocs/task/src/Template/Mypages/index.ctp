@@ -27,7 +27,7 @@
 <p><?= $this->Html->link('Create', ['controller' => 'Profiles', 'action' => 'add', $userId]) ?></p>
 <?php endif; ?>
 <h2>
-<?= $this->Html->link('My Goals', ['controller' => 'Goals', 'action' => 'index']) ?>
+<?= $this->Html->link('My Goals', ['controller' => 'Goals', 'action' => 'index', $userId]) ?>
 </h2>
 <?php foreach ($goals as $goal): ?>
 <h3>
