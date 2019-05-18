@@ -23,9 +23,16 @@ class BooksController extends AppController
 
 	public function view($id = null, $userId)
 	{
+		$isStudyContinuing = false;
+		$this->loadModel('Results');
+		$fields['conditions'][]='created=modified';
+		$unfinishedStudy = $this->Results->find('all', $fields)
+							->where(['user_id' => $userId])
+							->first();
 		$book = $this->Books->get($id);
 		$this->set(compact('book'));
 		$this->set(compact('userId'));
+		$this->set(compact('unfinishedStudy'));
 	}
 
 	public function add($userId)
