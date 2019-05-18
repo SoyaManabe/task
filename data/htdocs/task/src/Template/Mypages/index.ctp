@@ -1,5 +1,14 @@
 <h1>My Page</h1>
 <hr>
+<?php if (isset($unfinishedStudy)): ?>
+<h3>Alert: Your study is still going on.</h3>
+<p><?= $unfinishedStudy->book_id ?></p>
+<p><?= $unfinishedBook->isbn ?></p>
+<h3>
+<?= $this->Html->link('Finish', ['controller' => 'Results', 'action' => 'finish', $unfinishedStudy->id]) ?>
+</h3>
+<hr>
+<?php endif; ?>
 <?php if (isset($profile)): ?>
 <h2><?= $this->Html->link('Profile', ['controller' => 'Profiles', 'action' => 'edit', $userId]) ?></h2>
 <h3>Manabe Soya</h3>

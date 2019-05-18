@@ -14,8 +14,8 @@ class ResultsController extends AppController
 	public function index()
 	{
 		$userId = $this->Auth->user('id');
-		$books = $this->Books->find();
-		$this->set(compact('books'));
+		$results = $this->Results->find();
+		$this->set(compact('results'));
 		//$url = $this->amazon();
 		//$this->set(compact('url'));
 		$this->set(compact('userId'));
@@ -28,24 +28,34 @@ class ResultsController extends AppController
 		$this->set(compact('userId'));
 	}
 
-	public function start($userId)
+	public function start($bookId, $userId)
 	{
-		$book = $this->Books->newEntity();
+		$result = $this->Results->newEntity();
 		if ($this->request->is('post')) {
-			// Need to change here due to using Amazon API for getting book img.
-			$book = $this->Books->patchEntity($book, $this->request->getData());
-			if ($this->Books->save($book)) {
-				$this->Flash->success(__('Your new book has been saved.'));
-				return $this->redirect(['action' => 'index']);
+			$result = $this->Results->patchEntity($result, $this->request->getData());
+			$result->book_id = $bookId;
+			$result->user_id = $userId;
+			if ($this->Results->save($result)) {
+				$this->Flash->success(__('Your study started.'));
+				return $this->redirect(['controller' => 'mypages', 'action' => 'index']);
 			}
-			$this->Flash->error(__('Unable to add your book.'));
+			$this->Flash->error(__('Unable to start.'));
+			return $this->redirect(['controller' => 'books', 'action' => 'index']);
 		}
-		$this->set('book', $book);
-		$this->set('userId', $userId);
 	}
 
-	public function edit($id = null)
+	public function finish($id = null)
 	{
+                $result = $this->Results->findById($id)->firstOrFail();
+                if ($this->request->is(['post', 'put'])) {
+                        $this->Results->patchEntity($result, $this->request->getData());
+                        if ($this->Results->save($result)) {
+                                $this->Flash->success(__('Your study has been finished.'));
+                                return $this->redirect(['action' => 'index']);
+                        }
+                        $this->Flash->error(__('Unable to update your result.'));
+                }
+                $this->set('result', $result);
 	}
 
 	public function delete($id)
