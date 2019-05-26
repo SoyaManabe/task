@@ -10,6 +10,7 @@
 	<th>Title</th>
 	<th>Result</th>
 	<th>Comment</th>
+	<th></th>
 </tr>
 <?php foreach ($results as $result): ?>
 <tr>
@@ -19,6 +20,8 @@
 <th><?= $result->bookTitle ?></th>
 <th><?= $result->timeDiff ?></th>
 <th><?= $result->comments ?></th>
+<th><?= $this->Form->postLink('Delete', ['action' => 'delete',$result->id ],
+				['confirm' => 'Are you ok to delete?']) ?></th>
 </tr>
 <?php endforeach; ?>
 </table>

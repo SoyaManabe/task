@@ -77,9 +77,9 @@ class ResultsController extends AppController
 	public function delete($id)
 	{
 		$this->request->allowMethod(['post', 'delete']);
-		$book = $this->Books->get($id);
-		if ($this->Books->delete($book)) {
-			$this->Flash->success(__('The book has been deleted from your library.'));
+		$result = $this->Results->get($id);
+		if ($this->Results->delete($result)) {
+			$this->Flash->success(__('The result has been deleted from your page.'));
 			return $this->redirect(['action' => 'index']);
 		}
 	}
