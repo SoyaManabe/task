@@ -3,21 +3,37 @@
 
 namespace App\Controller;
 
+use Cake\ORM\TableRegistry;
+
 class ResultsController extends AppController
 {
 	public function initialize()
 	{
 		parent::initialize();
 		$this->loadComponent('Flash');
+		$this->loadComponent('Paginator');
 	}	
 
 	public function index()
 	{
 		$userId = $this->Auth->user('id');
-		$results = $this->Results->find();
+		$this->loadModel('Books');	
+		$results = $this->Paginator->paginate($this->Results->find()
+					->where(['user_id' => $userId]));
+		foreach ($results as $result){
+			$result->date = $result->created->format('m/d');
+			$result->startTime = $result->created->format('H:i');
+			$result->endTime = $result->modified->format('H:i');
+			//$result->timeDiff = $this->date_diff($result->created,$result->modified);
+			$result->timeDiff = $result->created->diff($result->modified)->format('%H:%I');
+			$book = $this->Books->find()
+						->where(['id' => $result->book_id])
+						->first();
+			$bookInfo = $this->getBookInformation($book->isbn);
+			$result->bookTitle = $bookInfo['items'][0]['volumeInfo']['title'];
+			$result->imageLink = "http://images-jp.amazon.com/images/P/".$book->isbn.".09.THUMBZZZ";
+		}		
 		$this->set(compact('results'));
-		//$url = $this->amazon();
-		//$this->set(compact('url'));
 		$this->set(compact('userId'));
 	}
 
@@ -68,60 +84,17 @@ class ResultsController extends AppController
 		}
 	}
 
-	public function amazon()
-	{
-		define("ACCESS_KEY_ID"     , 'AKIAIEZDEG7DCVJYRL2A');
-		define("SECRET_ACCESS_KEY" , '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');
-		define("ASSOCIATE_TAG"     , 'rikean-22');
-		define("ACCESS_URL"        , 'http://ecs.amazonaws.jp/onca/xml');
-
-		$base_param = 'AWSAccessKeyId='.ACCESS_KEY_ID;
-
-		$params = array();
-		$params['Service']       = 'AWSECommerceService';
-		$params['Operation']     = 'ItemSearch';
-		$params['SearchIndex']   = "Books";
-		$params['Version']        = '2011-08-02';
-		$params['Title']         = 'レーダブルコード';
-		$params['AssociateTag']  = ASSOCIATE_TAG;
-		$params['ResponseGroup'] = 'ItemAttributes,Images';
-		$params['Timestamp']     = gmdate('Y-m-d\TH:i:s\Z');
-
-		ksort($params);
-/*
-		$canonical_string = $base_param;
-		foreach ($params as $k => $v) {
-    		    $canonical_string .= '&'.$this->urlencode_RFC3986($k).'='.$this->urlencode_RFC3986($v);
-		}
-
-		$parsed_url = parse_url(ACCESS_URL);
-		$string_to_sign = "GET\n{$parsed_url['host']}\n{$parsed_url['path']}\n{$canonical_string}";
-
-		$signature = base64_encode(
-    	    	        hash_hmac('sha256', $string_to_sign, SECRET_ACCESS_KEY, true)
-    		    );
-
-		$url = ACCESS_URL.'?'.$canonical_string.'&Signature='.$this->urlencode_RFC3986($signature);
-
-		return $url;
+	public function time_diff($time_from, $time_to){
+		$dif = $time_to - $time_from;
+		$dif_time = date("H:i");
+		return $dif_time;
 	}
-	
-	public function urlencode_RFC3986($str)
-	{
-		return str_replace('%7E', '~', rawurlencode($str));
-	}
-*/
-		$parameter = '';
-		foreach ($params as $key => $value) {
-			$parameter .= $key . '=' . rawurlencode($value) . '&';
-		}
-		$parameter = rtrim($parameter, '&');
-		$signature = "GET\necs.amazonaws.jp\n/onca/xml\n" . $base_param . '&' . $parameter;
-		$signature = hash_hmac('sha256', $signature, SECRET_ACCESS_KEY, true);
-		$signature = rawurlencode(base64_encode($signature));
 
-		$request_url = 'http://ecs.amazonaws.jp/onca/xml?'.$base_param . '&' . $parameter. '&Signature=' . $signature;
-		$xml = simplexml_load_file($request_url);
-		return $request_url;
+	public function getBookInformation($isbn){
+		$url = "https://www.googleapis.com/books/v1/volumes?q=".$isbn;
+		$json = file_get_contents($url);
+		$json = mb_convert_encoding($json, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
+		$arr = json_decode($json,true);
+		return $arr;
 	}
 }

@@ -6,7 +6,6 @@
 <?php foreach ($books as $book): ?>
 <li>
 <p><?= $book->isbn ?></p>
-<!--<p><?= $url ?></p>-->
 <p><?= $this->Html->link('View', ['action' => 'view', $book->id, $userId]) ?></p>
 <p><?= $this->Form->postLink('Delete', ['action' => 'delete', $book->id],
 		['confirm' => 'Are you ok to delete?']) ?></p>

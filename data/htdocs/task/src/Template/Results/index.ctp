@@ -1,14 +1,25 @@
 <h1>Results</h1>
-<ul>
+<div id="skeduler-container">
+
+</div>
+<table>
+<tr>
+	<th>Date</th>
+	<th>Time</th>
+	<th>IMG</th>
+	<th>Title</th>
+	<th>Result</th>
+	<th>Comment</th>
+</tr>
 <?php foreach ($results as $result): ?>
-<li>
-<p><?= $result->comments ?></p>
-<!--<p><?= $url ?></p>
-<p><?= $this->Html->link('View', ['action' => 'view', $book->id, $userId]) ?></p>
-<p><?= $this->Form->postLink('Delete', ['action' => 'delete', $book->id],
-		['confirm' => 'Are you ok to delete?']) ?></p>
--->
-</li>
+<tr>
+<th><?= $result->date ?></th>
+<th><?= $result->startTime ?> - <?= $result->endTime?></th>
+<th><img src="<?= $result->imageLink ?>"></th>
+<th><?= $result->bookTitle ?></th>
+<th><?= $result->timeDiff ?></th>
+<th><?= $result->comments ?></th>
+</tr>
 <?php endforeach; ?>
-</ul>
+</table>
 <p><?= $this->Html->link('Mypage', ['controller' => 'mypages', 'action' => 'index']) ?></p>

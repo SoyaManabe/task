@@ -14,7 +14,7 @@ class BooksTable extends Table
          {
                  $validator
                          ->allowEmptyString('book', false)
-                         ->minLength('isbn',13);
+                         ->minLength('isbn',10);
                  return $validator;
          }
 

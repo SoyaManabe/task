@@ -61,7 +61,7 @@ mysql> CREATE TABLE goals (
 mysql> CREATE TABLE books (
     -> id INT AUTO_INCREMENT PRIMARY KEY,
     -> user_id INT UNSIGNED,
-    -> isbn INT(13),
+    -> isbn bigint(13),
     -> FOREIGN KEY user_key (user_id) REFERENCES users(id)
     -> );
 

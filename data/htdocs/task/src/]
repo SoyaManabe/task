@@ -17,6 +17,7 @@ class BooksController extends AppController
 		$userId = $this->Auth->user('id');
 		$datas = $this->Paginator->paginate($this->Books->find()->where(['user_id' => $userId]));
 		$books = $datas;
+		var_dump($datas);
 		$this->set(compact('books'));
 		$this->set(compact('userId'));
 	}

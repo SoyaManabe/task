@@ -32,6 +32,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+    <link rel="stylesheet" href="jquery.skeduler.min.css">
+	<?= $this->Html->script('jquery-3.3.1.min.js'); ?>
+	<?= $this->Html->script('jquery.skeduler.min.js'); ?>
+	<script src="<a href="https://www.jqueryscript.net/time-clock/">date</a>.format.min.js"</script>
 </head>
 <body>
     <nav class="top-bar expanded" data-topbar role="navigation">
