@@ -2,8 +2,8 @@
 <hr>
 <?php if (isset($unfinishedStudy)): ?>
 <h3>Alert: Your study is still going on.</h3>
-<p><?= $unfinishedStudy->book_id ?></p>
-<p><?= $unfinishedBook->isbn ?></p>
+<h4><?= $unfinishedBook->bookTitle ?></h4>
+<img src="<?= $unfinishedBook->imageLink ?>MZZZZZZZ"></img>
 <h3>
 <?= $this->Html->link('Finish', ['controller' => 'Results', 'action' => 'finish', $unfinishedStudy->id]) ?>
 </h3>

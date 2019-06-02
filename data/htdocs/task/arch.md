@@ -62,8 +62,16 @@ mysql> CREATE TABLE books (
     -> id INT AUTO_INCREMENT PRIMARY KEY,
     -> user_id INT UNSIGNED,
     -> isbn bigint(13),
+bookSubtitle VARCHAR(50);
+author VARCHAR(30);
+ADD description VARCHAR(100);
+imageLink VARCHAR(255);
     -> FOREIGN KEY user_key (user_id) REFERENCES users(id)
     -> );
+
+contents that I think need to add
+book title subtitle authors description isbn10 imageLink
+
 
 mysql> CREATE TABLE results (
     -> id INT AUTO_INCREMENT PRIMARY KEY,

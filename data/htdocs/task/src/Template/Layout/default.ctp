@@ -13,7 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'Task Timer';
 ?>
 <!DOCTYPE html>
 <html>
@@ -41,14 +41,23 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <nav class="top-bar expanded" data-topbar role="navigation">
         <ul class="title-area large-3 medium-4 columns">
             <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
+                <h1><a href=""><?= $cakeDescription ?></a></h1>
             </li>
         </ul>
         <div class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
-            </ul>
+			<ul class="left">
+				<li><?= $this->Html->link('Mypage', ['controller' => 'Mypages', 'action' => 'index']) ?></li>
+				<li><?= $this->Html->link('Books', ['controller' => 'Books', 'action' => 'index']) ?></li>
+                		<li><?= $this->Html->link('Results', ['controller' => 'Results', 'action' => 'index']) ?></li>
+			</ul>
+            		<ul class="right">
+				<?php if(isset($userId)): ?>
+            			<li><?= $this->Html->link('SIGN OUT',['controller' => 'Users', 'action' => 'logout']) ?></li>
+				<?php else: ?>
+				<li><?= $this->Html->link('SIGN IN',['controller' => 'Users', 'action' => 'login']) ?></li>
+				<li><?= $this->Html->link('SIGN UP',['controller' => 'Users', 'action' => 'add']) ?></li>
+				<?php endif; ?>
+			</ul>
         </div>
     </nav>
     <?= $this->Flash->render() ?>
