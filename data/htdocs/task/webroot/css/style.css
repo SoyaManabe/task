@@ -319,16 +319,17 @@ pre {
 }
 
 .top-bar.expanded .title-area {
-    background: #01545b;
+    background: #333333;
 }
 
 .top-bar.expanded, .top-bar,.top-bar-section ul li,.top-bar-section li:not(.has-form) a:not(.button) {
-    background: #116d76;
+    background: #111111;
+    color: #FFF8DC;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button):hover {
-    background-color: #308e97;
-    background: #308e97;
+    background-color: red;
+    background: red;
 }
 
 .side-nav li.heading {

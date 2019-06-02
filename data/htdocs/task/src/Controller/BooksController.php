@@ -20,8 +20,9 @@ class BooksController extends AppController
 		$this->set(compact('userId'));
 	}
 
-	public function view($id = null, $userId)
+	public function view($id = null)
 	{
+		$userId = $this->Auth->user('id');
 		$isStudyContinuing = false;
 		$this->loadModel('Results');
 		$fields['conditions'][]='created=modified';
@@ -34,8 +35,9 @@ class BooksController extends AppController
 		$this->set(compact('unfinishedStudy'));
 	}
 
-	public function search($userId)
+	public function search()
 	{
+		$userId = $this->Auth->user('id');
 	    $book = $this->Books->newEntity();	
         if ($this->request->is('post')){
 			$book = $this->Books->patchEntity($book, $this->request->getData());
@@ -60,13 +62,11 @@ class BooksController extends AppController
 			$addingBook = $searchResults['items']['0']['volumeInfo'];
 			$book->user_id = $userId;
 			$book->isbn = $addingBook['industryIdentifiers']['0']['identifier'];
-			$book->bookTitle = $addingBook['title'];
-			$book->author = $addingBook['authors']['0'];
-			$book->description = $addingBook['description'];
+			$book->bookTitle = @$addingBook['title'];
+			$book->author = @$addingBook['authors']['0'];
+			$book->description = @$addingBook['description'];
 			$book->imageLink = "http://images-jp.amazon.com/images/P/".$book->isbn.".09.";
-			$book->subtitle = $addingBook['subtitle'];
-			//var_dump($book->bookTitle);
-			//var_dump("isbn is".$book->isbn);
+			$book->subtitle = @$addingBook['subtitle'];
 			if ($this->Books->save($book)) {
 				$this->Flash->success(__('Your new book has been saved.'));
 				return $this->redirect(['action' => 'index']);

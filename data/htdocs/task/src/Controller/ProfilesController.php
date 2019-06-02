@@ -31,8 +31,9 @@ class ProfilesController extends AppController
 		$this->set('profile', $profile);
 	}
 	
-	public function edit($userId)
-		{
+	public function edit()
+	{
+		$userId = $this->Auth->user('id');
 		$profile = $this->Profiles->find()
 			->where(['user_id' => $userId])
 			->firstOrFail();
@@ -44,6 +45,7 @@ class ProfilesController extends AppController
 			}
 			$this->Flash->error(__('Unable to update your profile.'));
 		}
+		$this->set(compact('userId'));
 		$this->set('profile', $profile);
 	}
 }

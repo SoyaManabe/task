@@ -10,7 +10,7 @@
 <hr>
 <?php endif; ?>
 <?php if (isset($profile)): ?>
-<h2><?= $this->Html->link('Profile', ['controller' => 'Profiles', 'action' => 'edit', $userId]) ?></h2>
+<h2><?= $this->Html->link('Profile', ['controller' => 'Profiles', 'action' => 'edit']) ?></h2>
 <h3>Manabe Soya</h3>
 <table>
 <tr>
